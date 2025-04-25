@@ -1,0 +1,46 @@
+{
+  "short_name": "Amorn Tailor",
+  "name": "Bespoke Tailor App",
+  "icons": [
+    {
+      "src": "/tailor-client/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/tailor-client/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/tailor-client/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/tailor-client/maskable_icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/tailor-client/",
+  "display": "standalone",
+  "theme_color": "#124559",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "description": "Premium tailor services for international clients",
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "type": "image/png",
+      "sizes": "540x1080"
+    },
+    {
+      "src": "screenshot2.png",
+      "type": "image/png",
+      "sizes": "540x1080"
+    }
+  ]
+}
