@@ -32,8 +32,8 @@ import Layout from '../../components/layout/Layout';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
-import { Order } from '../types/order';
-import { Appointment } from '../types/appointment';
+import { Order } from '../../types/order';
+import { Appointment } from '../../types/appointment';
 import { formatDistanceToNow } from 'date-fns';
 
 interface HomePageProps {
@@ -187,19 +187,19 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
       <Box sx={{ pb: 6 }}>
         {/* Welcome Section */}
         <Box sx={{ mb: 4 }}>
-          <Typography variant="displaySmall" component="h1" gutterBottom>
+          <Typography variant="h4" component="h1" gutterBottom>
             Welcome, {userProfile ? userProfile.firstName : 'Client'}
           </Typography>
-          <Typography variant="bodyLarge" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
             Your premium tailoring experience awaits
           </Typography>
         </Box>
 
         {/* Tailor Location Banner */}
-        <Card 
-          sx={{ 
-            mb: 4, 
-            bgcolor: 'primary.main', 
+        <Card
+          sx={{
+            mb: 4,
+            bgcolor: 'primary.main',
             color: 'white',
             borderRadius: 2,
             position: 'relative',
@@ -222,21 +222,21 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
           <CardContent sx={{ position: 'relative', zIndex: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
               <Box>
-                <Typography variant="titleMedium" sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
+                <Typography variant="subtitle1" sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
                   <LocationOnIcon sx={{ mr: 0.5, fontSize: '1rem' }} /> TAILOR LOCATION
                 </Typography>
-                <Typography variant="headlineMedium" sx={{ mb: 0.5 }}>
+                <Typography variant="h5" sx={{ mb: 0.5 }}>
                   Bangkok, Thailand
                 </Typography>
-                <Typography variant="bodyMedium">
+                <Typography variant="body2">
                   April 25-30, 2025 • Mandarin Oriental Hotel
                 </Typography>
               </Box>
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 size="small"
-                sx={{ 
-                  bgcolor: 'white', 
+                sx={{
+                  bgcolor: 'white',
                   color: 'primary.main',
                   '&:hover': {
                     bgcolor: 'primary.light',
@@ -253,17 +253,17 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
         </Card>
 
         {/* Quick Actions */}
-        <Typography variant="titleLarge" sx={{ mb: 2 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
           Quick Actions
         </Typography>
-        
+
         <Grid container spacing={2} sx={{ mb: 4 }}>
           {quickActions.map((action, index) => (
             <Grid item xs={6} sm={3} key={index}>
-              <Card 
+              <Card
                 component={Link}
                 to={action.link}
-                sx={{ 
+                sx={{
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -279,10 +279,10 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                   },
                 }}
               >
-                <Typography variant="headlineLarge" sx={{ mb: 1 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   {action.icon}
                 </Typography>
-                <Typography variant="bodyMedium" align="center">
+                <Typography variant="body2" align="center">
                   {action.label}
                 </Typography>
               </Card>
@@ -293,8 +293,8 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
         {/* Active Orders */}
         <Box sx={{ mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="titleLarge">Your Orders</Typography>
-            <Button 
+            <Typography variant="h5">Your Orders</Typography>
+            <Button
               component={Link}
               to="/orders"
               endIcon={<ChevronRightIcon />}
@@ -303,7 +303,7 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
               View All
             </Button>
           </Box>
-          
+
           {loading ? (
             <Box sx={{ display: 'flex', overflow: 'auto', pb: 1, mx: -2, px: 2 }}>
               {[1, 2, 3].map((item) => (
@@ -320,10 +320,10 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
           ) : activeOrders.length > 0 ? (
             <Box sx={{ display: 'flex', overflow: 'auto', pb: 1, mx: -2, px: 2 }}>
               {activeOrders.map((order) => (
-                <Card 
-                  key={order.id} 
-                  sx={{ 
-                    minWidth: 280, 
+                <Card
+                  key={order.id}
+                  sx={{
+                    minWidth: 280,
                     mr: 2,
                     flexShrink: 0,
                     transition: 'transform 0.2s',
@@ -336,30 +336,30 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                   to={`/orders/${order.id}`}
                 >
                   <CardContent>
-                    <Typography variant="titleMedium" gutterBottom>
+                    <Typography variant="subtitle1" gutterBottom>
                       Order #{order.id.substring(0, 8)}
                     </Typography>
-                    
-                    <Typography variant="bodySmall" color="text.secondary" gutterBottom>
+
+                    <Typography variant="caption" color="text.secondary" gutterBottom>
                       Placed {formatDistanceToNow(new Date(order.dateCreated), { addSuffix: true })}
                     </Typography>
-                    
+
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Chip 
-                        label={order.status.charAt(0).toUpperCase() + order.status.slice(1)} 
+                      <Chip
+                        label={order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                         size="small"
-                        sx={{ 
+                        sx={{
                           bgcolor: getOrderStatusColor(order.status),
                           color: 'white',
                           fontWeight: 500,
                         }}
                       />
-                      <Typography variant="titleMedium">
+                      <Typography variant="subtitle1">
                         {formatCurrency(order.total, order.currency)}
                       </Typography>
                     </Box>
-                    
-                    <Typography variant="bodyMedium" sx={{ color: 'text.secondary' }}>
+
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                       {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
                     </Typography>
                   </CardContent>
@@ -369,11 +369,11 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
           ) : (
             <Card sx={{ bgcolor: 'background.paper', mb: 4 }}>
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="bodyLarge" paragraph>
+                <Typography variant="body1" paragraph>
                   You don't have any active orders yet.
                 </Typography>
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   startIcon={<AddIcon />}
                   component={Link}
                   to="/orders/new"
@@ -387,10 +387,10 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
 
         {/* Upcoming Appointment */}
         <Box sx={{ mb: 4 }}>
-          <Typography variant="titleLarge" sx={{ mb: 2 }}>
+          <Typography variant="h5" sx={{ mb: 2 }}>
             Upcoming Appointment
           </Typography>
-          
+
           {loading ? (
             <Card>
               <CardContent>
@@ -405,17 +405,17 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Box>
-                    <Typography variant="titleMedium" gutterBottom>
+                    <Typography variant="subtitle1" gutterBottom>
                       {upcomingAppointment.purpose.charAt(0).toUpperCase() + upcomingAppointment.purpose.slice(1)} Appointment
                     </Typography>
-                    
+
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                      <CalendarTodayIcon 
-                        fontSize="small" 
-                        color="action" 
-                        sx={{ mr: 1 }} 
+                      <CalendarTodayIcon
+                        fontSize="small"
+                        color="action"
+                        sx={{ mr: 1 }}
                       />
-                      <Typography variant="bodyMedium">
+                      <Typography variant="body2">
                         {new Date(upcomingAppointment.dateTime).toLocaleDateString('en-US', {
                           weekday: 'long',
                           year: 'numeric',
@@ -424,14 +424,14 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                         })}
                       </Typography>
                     </Box>
-                    
+
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                      <AccessTimeIcon 
-                        fontSize="small" 
-                        color="action" 
-                        sx={{ mr: 1 }} 
+                      <AccessTimeIcon
+                        fontSize="small"
+                        color="action"
+                        sx={{ mr: 1 }}
                       />
-                      <Typography variant="bodyMedium">
+                      <Typography variant="body2">
                         {new Date(upcomingAppointment.dateTime).toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit',
@@ -441,22 +441,22 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                         })}
                       </Typography>
                     </Box>
-                    
+
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <LocationOnIcon 
-                        fontSize="small" 
-                        color="action" 
-                        sx={{ mr: 1 }} 
+                      <LocationOnIcon
+                        fontSize="small"
+                        color="action"
+                        sx={{ mr: 1 }}
                       />
-                      <Typography variant="bodyMedium">
+                      <Typography variant="body2">
                         {upcomingAppointment.location.type === 'shop' ? 'Tailor Shop, Phuket' : upcomingAppointment.location.address}
                       </Typography>
                     </Box>
                   </Box>
-                  
+
                   <Box>
-                    <Button 
-                      variant="outlined" 
+                    <Button
+                      variant="outlined"
                       size="small"
                       sx={{ mb: 1 }}
                       component={Link}
@@ -464,8 +464,8 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                     >
                       Details
                     </Button>
-                    <Button 
-                      variant="outlined" 
+                    <Button
+                      variant="outlined"
                       color="secondary"
                       size="small"
                       component={Link}
@@ -479,7 +479,7 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                 {upcomingAppointment.notes && (
                   <>
                     <Divider sx={{ mb: 2 }} />
-                    <Typography variant="bodyMedium" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary">
                       {upcomingAppointment.notes}
                     </Typography>
                   </>
@@ -489,11 +489,11 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
           ) : (
             <Card sx={{ bgcolor: 'background.paper' }}>
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="bodyLarge" paragraph>
+                <Typography variant="body1" paragraph>
                   You don't have any upcoming appointments.
                 </Typography>
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   startIcon={<AddIcon />}
                   component={Link}
                   to="/appointments/new"
@@ -508,8 +508,8 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
         {/* Recommended Products */}
         <Box sx={{ mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="titleLarge">Recommended For You</Typography>
-            <Button 
+            <Typography variant="h5">Recommended For You</Typography>
+            <Button
               component={Link}
               to="/catalog"
               endIcon={<ChevronRightIcon />}
@@ -518,7 +518,7 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
               View Catalog
             </Button>
           </Box>
-          
+
           {loading ? (
             <Box sx={{ display: 'flex', overflow: 'auto', pb: 1, mx: -2, px: 2 }}>
               {[1, 2, 3, 4].map((item) => (
@@ -534,10 +534,10 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
           ) : (
             <Box sx={{ display: 'flex', overflow: 'auto', pb: 1, mx: -2, px: 2 }}>
               {recommendedProducts.map((product) => (
-                <Card 
-                  key={product.id} 
-                  sx={{ 
-                    width: 200, 
+                <Card
+                  key={product.id}
+                  sx={{
+                    width: 200,
                     mr: 2,
                     flexShrink: 0,
                     transition: 'transform 0.2s',
@@ -578,10 +578,10 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
                     </IconButton>
                   </Box>
                   <CardContent>
-                    <Typography variant="titleMedium" gutterBottom noWrap>
+                    <Typography variant="subtitle1" gutterBottom noWrap>
                       {product.name}
                     </Typography>
-                    <Typography variant="titleSmall" color="primary">
+                    <Typography variant="subtitle2" color="primary">
                       {formatCurrency(product.basePrice, product.currency)}
                     </Typography>
                   </CardContent>
