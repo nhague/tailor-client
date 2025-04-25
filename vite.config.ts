@@ -42,7 +42,7 @@ export default defineConfig({
     open: true, // Automatically open in browser
   },
   build: {
-    outDir: 'build', // Specify the output directory for the build
+    outDir: 'dist', // Specify the output directory for the build
     rollupOptions: {
       external: [],
     },

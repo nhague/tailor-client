@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tailor-client/sw.js', { scope: '/tailor-client/' })})}

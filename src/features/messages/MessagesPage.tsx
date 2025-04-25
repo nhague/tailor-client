@@ -8,20 +8,32 @@ import { User } from '../../types/user'; // Assuming User type exists
 import { Message } from '../../types/message'; // Assuming Message type exists
 
 // Define more specific types based on assumed structure or existing types
-interface SampleUser extends Pick<User, 'id' | 'displayName'> { // Use User type fields if they match
+// Use User type fields directly or define a specific sample type if needed
+// Let's use the actual User fields for consistency
+interface SampleUser extends Pick<User, 'uid' | 'firstName' | 'lastName'> {
   avatar?: string; // Keep avatar optional or use a default
 }
 
-interface SampleMessage extends Message { // Extend existing Message type
-  // Add any specific fields if needed, otherwise Message type should suffice
-  // Ensure Message type has id, senderId, text, timestamp
+// Define a structure for sample messages, aligning with the actual Message type
+// Add required fields like conversationId, recipientId, content, read, isSystemMessage
+interface SampleMessage {
+  id: string;
+  conversationId: string; // Added
+  senderId: string;
+  recipientId: string; // Added
+  content: string; // Changed from text
+  timestamp: Date;
+  read: boolean; // Added
+  isSystemMessage: boolean; // Added
+  // attachmentUrls?: string[]; // Optional
+  // orderReference?: string; // Optional
 }
 
-// Sample Data (Typed)
+// Sample Data (Typed) - Updated to match SampleUser interface
 const sampleUsers: SampleUser[] = [
-  { id: '1', displayName: 'Alice' /* avatar: '/api/placeholder/300/300' - Removed */ },
-  { id: '2', displayName: 'Bob' /* avatar: '/api/placeholder/301/301' - Removed */ },
-  { id: '3', displayName: 'Charlie' /* avatar: '/api/placeholder/302/302' - Removed */ },
+  { uid: '1', firstName: 'Alice', lastName: 'A' /* avatar: '/api/placeholder/300/300' - Removed */ },
+  { uid: '2', firstName: 'Bob', lastName: 'B' /* avatar: '/api/placeholder/301/301' - Removed */ },
+  { uid: '3', firstName: 'Charlie', lastName: 'C' /* avatar: '/api/placeholder/302/302' - Removed */ },
 ];
 
 // Type for the messages state object
@@ -29,22 +41,23 @@ type MessagesState = {
   [userId: string]: SampleMessage[];
 };
 
+// Updated sample messages to match SampleMessage interface
 const sampleMessages: MessagesState = {
   '1': [
-    { id: 'm1', senderId: 'user', text: 'Hi Alice!', timestamp: new Date(Date.now() - 100000) },
-    { id: 'm2', senderId: '1', text: 'Hey there!', timestamp: new Date(Date.now() - 90000) },
+    { id: 'm1', conversationId: 'user_1', senderId: 'user', recipientId: '1', content: 'Hi Alice!', timestamp: new Date(Date.now() - 100000), read: true, isSystemMessage: false },
+    { id: 'm2', conversationId: 'user_1', senderId: '1', recipientId: 'user', content: 'Hey there!', timestamp: new Date(Date.now() - 90000), read: true, isSystemMessage: false },
   ],
   '2': [
-    { id: 'm3', senderId: 'user', text: 'Morning Bob', timestamp: new Date(Date.now() - 50000) },
+    { id: 'm3', conversationId: 'user_2', senderId: 'user', recipientId: '2', content: 'Morning Bob', timestamp: new Date(Date.now() - 50000), read: true, isSystemMessage: false },
   ],
-  '3': [],
+  '3': [], // Charlie has no messages yet
 };
 
 function MessagesPage(): React.ReactElement {
   const theme = useTheme();
-  const { user } = useAuth(); // Use the hook
+  const { userProfile } = useAuth(); // Use userProfile for custom User data
 
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(sampleUsers[0]?.id || null);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(sampleUsers[0]?.uid || null);
   const [messages, setMessages] = useState<MessagesState>(sampleMessages);
   const [newMessage, setNewMessage] = useState<string>('');
 
@@ -76,15 +89,20 @@ function MessagesPage(): React.ReactElement {
   };
 
   const handleSendMessage = async () => {
-    if (!newMessage.trim() || !user || !selectedUserId) return;
+    if (!newMessage.trim() || !userProfile || !selectedUserId) return;
 
-    // Ensure user object has uid (adjust based on your actual User type)
-    const senderId = user?.uid || 'unknown_user';
+    // Use uid from userProfile
+    const senderId = userProfile?.uid || 'unknown_user';
 
-    const messageData: Omit<SampleMessage, 'id'> = { // Omit id as it's generated
+    // Create message data matching SampleMessage structure
+    const messageData: Omit<SampleMessage, 'id'> = {
       senderId: senderId,
-      text: newMessage,
+      recipientId: selectedUserId, // Added recipient
+      content: newMessage, // Changed from text
       timestamp: new Date(), // Use client time for sample data
+      conversationId: [senderId, selectedUserId].sort().join('_'), // Example conversation ID
+      read: false, // New messages start unread
+      isSystemMessage: false, // Regular message
     };
 
     // Sample data update
@@ -115,8 +133,8 @@ function MessagesPage(): React.ReactElement {
   };
 
   const selectedUserMessages = selectedUserId ? messages[selectedUserId] || [] : [];
-  const selectedUserDetails = sampleUsers.find(u => u.id === selectedUserId);
-  const currentUserSenderId = user?.uid || 'unknown_user'; // Consistent sender ID check
+  const selectedUserDetails = sampleUsers.find(u => u.uid === selectedUserId);
+  const currentUserSenderId = userProfile?.uid || 'unknown_user'; // Consistent sender ID check
 
   return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', // Adjust height based on header/layout
@@ -132,9 +150,9 @@ function MessagesPage(): React.ReactElement {
         <List>
           {sampleUsers.map((u) => (
             <ListItem
-              key={u.id}
-              onClick={() => handleSelectUser(u.id)}
-              selected={selectedUserId === u.id}
+              key={u.uid}
+              onClick={() => handleSelectUser(u.uid)}
+              selected={selectedUserId === u.uid}
               sx={{
                  cursor: 'pointer',
                 '&.Mui-selected': {
@@ -147,11 +165,13 @@ function MessagesPage(): React.ReactElement {
             >
               <ListItemAvatar>
                 {/* Use Avatar without src for placeholder */}
-                <Avatar alt={u.displayName}>
-                  {u.displayName ? u.displayName.charAt(0).toUpperCase() : '?'}
+                {/* Use firstName for Avatar alt and initial */}
+                <Avatar alt={u.firstName}>
+                  {u.firstName ? u.firstName.charAt(0).toUpperCase() : '?'}
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={u.displayName} />
+              {/* Display full name */}
+              <ListItemText primary={`${u.firstName} ${u.lastName}`} />
             </ListItem>
           ))}
         </List>
@@ -160,7 +180,6 @@ function MessagesPage(): React.ReactElement {
       {/* Chat Area */}
       <Box sx={{
           width: { xs: '100%', sm: '70%' },
-          display: 'flex',
           flexDirection: 'column',
           bgcolor: theme.palette.background.default,
           display: { xs: selectedUserId ? 'flex' : 'none', sm: 'flex' } // Show chat on mobile only when selected
@@ -170,10 +189,12 @@ function MessagesPage(): React.ReactElement {
             {/* Chat Header */}
             <Paper square elevation={1} sx={{ p: 2, display: 'flex', alignItems: 'center', borderBottom: `1px solid ${theme.palette.divider}` }}>
                {/* Use Avatar without src for placeholder */}
-               <Avatar alt={selectedUserDetails.displayName} sx={{ mr: 2 }}>
-                 {selectedUserDetails.displayName ? selectedUserDetails.displayName.charAt(0).toUpperCase() : '?'}
+               {/* Use firstName for Avatar alt and initial */}
+               <Avatar alt={selectedUserDetails.firstName} sx={{ mr: 2 }}>
+                 {selectedUserDetails.firstName ? selectedUserDetails.firstName.charAt(0).toUpperCase() : '?'}
                </Avatar>
-               <Typography variant="h6">{selectedUserDetails.displayName}</Typography>
+               {/* Display full name */}
+               <Typography variant="h6">{`${selectedUserDetails.firstName} ${selectedUserDetails.lastName}`}</Typography>
                {/* Add a back button for mobile? */}
             </Paper>
 
@@ -199,7 +220,8 @@ function MessagesPage(): React.ReactElement {
                       wordBreak: 'break-word', // Prevent long words from overflowing
                     }}
                   >
-                    <Typography variant="body1">{msg.text}</Typography>
+                    {/* Use content field for message text */}
+                    <Typography variant="body1">{msg.content}</Typography>
                     {msg.timestamp && ( // Check if timestamp exists
                        <Typography variant="caption" display="block" sx={{ textAlign: 'right', opacity: 0.7, mt: 0.5 }}>
                          {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
