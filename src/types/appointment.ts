@@ -23,3 +23,27 @@ export interface Appointment {
     reminderTime: number; // hours before appointment
   };
 }
+export interface AvailableSlot {
+  id: string;
+  date: Date;
+  startTime: Date;
+  endTime: Date;
+  booked: boolean;
+  appointmentId: string | null;
+}
+
+export interface TailorTravelLocation {
+  id: string;
+  destination: {
+    city: string;
+    country: string;
+    venue?: string; // Optional based on sample data usage
+    address: string;
+    coordinates?: {
+      latitude: number;
+      longitude: number;
+    };
+  };
+  startDate: Date;
+  endDate: Date;
+}
