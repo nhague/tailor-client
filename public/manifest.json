@@ -1,30 +1,30 @@
 {
-  "short_name": "Bespoke Tailor",
+  "short_name": "Amorn Tailor",
   "name": "Bespoke Tailor App",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/tailor-client/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "/tailor-client/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "/tailor-client/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "maskable_icon.png",
+      "src": "/tailor-client/maskable_icon.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/tailor-client/",
   "display": "standalone",
   "theme_color": "#124559",
   "background_color": "#ffffff",

@@ -36,6 +36,7 @@ export default defineConfig({
       // }
     }),
   ],
+  base: '/tailor-client/', // Add this line for GitHub Pages deployment
   server: {
     port: 3000, // Keep the port consistent if desired
     open: true, // Automatically open in browser
