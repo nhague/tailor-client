@@ -5,11 +5,7 @@ import { Button, IconButton, Typography, Box } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 // Assume other necessary imports are here
 
-interface MeasurementsPageProps {
-  toggleTheme: () => void;
-}
-
-const MeasurementsPage: React.FC<MeasurementsPageProps> = ({ toggleTheme }) => {
+const MeasurementsPage: React.FC = () => {
   const [measurements, setMeasurements] = useState([]);
   const [selectedMeasurement, setSelectedMeasurement] = useState(null);
 

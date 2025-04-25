@@ -44,11 +44,7 @@ import { db } from '../../config/firebase'; // Update import path
 import { Product } from '../../types/product'; // Update import path
 import { Helmet } from 'react-helmet-async'; // Use react-helmet-async for head management
 
-interface CatalogPageProps {
-  toggleTheme: () => void;
-}
-
-const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
+const CatalogPage = () => {
   const { userProfile } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -348,10 +344,10 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
       <Box sx={{ pb: 6 }}>
         {/* Header Section */}
         <Box sx={{ mb: 4 }}>
-          <Typography variant="displaySmall" component="h1" gutterBottom>
+          <Typography variant="h5" component="h1" gutterBottom>
             Product Catalog
           </Typography>
-          <Typography variant="bodyLarge" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
             Browse our collection of premium custom clothing
           </Typography>
         </Box>
@@ -536,11 +532,11 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
                       )}
                     </Box>
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography variant="titleMedium" component="h2" gutterBottom noWrap>
+                      <Typography variant="subtitle1" component="h2" gutterBottom noWrap>
                         {product.name}
                       </Typography>
                       <Typography
-                        variant="bodySmall"
+                        variant="caption"
                         color="text.secondary"
                         sx={{
                           mb: 2,
@@ -554,7 +550,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
                       >
                         {product.description}
                       </Typography>
-                      <Typography variant="titleMedium" color="primary">
+                      <Typography variant="subtitle1" color="primary">
                         {formatCurrency(product.basePrice, product.currency)}
                       </Typography>
                     </CardContent>
@@ -627,10 +623,10 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
                       </Grid>
                       <Grid item xs={12} sm={8}>
                         <CardContent>
-                          <Typography variant="titleLarge" component="h2" gutterBottom>
+                          <Typography variant="h6" component="h2" gutterBottom>
                             {product.name}
                           </Typography>
-                          <Typography variant="bodyMedium" color="text.secondary" paragraph>
+                          <Typography variant="body2" color="text.secondary" paragraph>
                             {product.description}
                           </Typography>
                           <Box
@@ -641,7 +637,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
                               mt: 2,
                             }}
                           >
-                            <Typography variant="titleLarge" color="primary">
+                            <Typography variant="h6" color="primary">
                               {formatCurrency(product.basePrice, product.currency)}
                             </Typography>
                             <Button
@@ -662,10 +658,10 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
           </Grid>
         ) : (
           <Box sx={{ textAlign: 'center', py: 6 }}>
-            <Typography variant="headlineMedium" gutterBottom>
+            <Typography variant="h6" gutterBottom>
               No Products Found
             </Typography>
-            <Typography variant="bodyLarge" sx={{ mb: 3 }}>
+            <Typography variant="body1" sx={{ mb: 3 }}>
               We couldn't find any products matching your search or filters.
             </Typography>
             <Button variant="outlined" onClick={clearFilters}>
@@ -689,7 +685,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
       >
         <Box sx={{ p: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-            <Typography variant="headlineMedium">Filters</Typography>
+            <Typography variant="h6">Filters</Typography>
             <IconButton onClick={() => setFilterDrawerOpen(false)}>
               <CloseIcon />
             </IconButton>
@@ -699,7 +695,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
 
           {/* Categories Filter */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="titleMedium" gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               Categories
             </Typography>
             <FormGroup>
@@ -731,7 +727,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
 
           {/* Price Range Filter */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="titleMedium" gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               Price Range
             </Typography>
             <FormControl component="fieldset">
@@ -755,7 +751,7 @@ const CatalogPage = ({ toggleTheme }: CatalogPageProps) => {
 
           {/* Season Filter */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="titleMedium" gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               Season
             </Typography>
             <FormGroup>

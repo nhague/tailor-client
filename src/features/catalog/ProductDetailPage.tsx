@@ -55,11 +55,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { Product } from '../../types/product';
 
-interface ProductPageProps {
-  toggleTheme: () => void;
-}
-
-const ProductPage = ({ toggleTheme }: ProductPageProps) => {
+const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { userProfile } = useAuth();
@@ -109,7 +105,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
     };
 
     fetchProduct();
-  }, [id, router]);
+  }, [id]);
 
   // Sample product data for demo
   const getSampleProduct = (productId: string): Product | null => {
@@ -329,23 +325,23 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
 
             {/* Product Details */}
             <Grid item xs={12} md={6}>
-              <Typography variant="displaySmall" component="h1" gutterBottom>
+              <Typography variant="h5" component="h1" gutterBottom>
                 {product.name}
               </Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Typography variant="titleLarge" color="primary" sx={{ mr: 2 }}>
+                <Typography variant="h6" color="primary" sx={{ mr: 2 }}>
                   {formatCurrency(product.basePrice, product.currency)}
                 </Typography>
                 {product.featured && <Chip label="Featured" color="primary" size="small" />}
               </Box>
               
-              <Typography variant="bodyLarge" paragraph>
+              <Typography variant="body1" paragraph>
                 {product.description}
               </Typography>
 
               <Box sx={{ mb: 3 }}>
-                <Typography variant="titleMedium" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   Key Features:
                 </Typography>
                 <List dense>
@@ -363,7 +359,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
               <Divider sx={{ mb: 3 }} />
 
               {/* Customization Options */}
-              <Typography variant="titleLarge" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 Customization Options
               </Typography>
 
@@ -371,7 +367,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.lapelStyles && (
                   <Accordion defaultExpanded>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Lapel Style</Typography>
+                      <Typography variant="subtitle1">Lapel Style</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
@@ -396,7 +392,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.ventStyles && (
                   <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Vent Style</Typography>
+                      <Typography variant="subtitle1">Vent Style</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
@@ -421,7 +417,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.collarStyles && (
                   <Accordion defaultExpanded>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Collar Style</Typography>
+                      <Typography variant="subtitle1">Collar Style</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
@@ -446,7 +442,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.cuffStyles && (
                   <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Cuff Style</Typography>
+                      <Typography variant="subtitle1">Cuff Style</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
@@ -471,7 +467,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.monogramOptions && (
                   <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Monogram</Typography>
+                      <Typography variant="subtitle1">Monogram</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <TextField
@@ -491,7 +487,7 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
                 {product.customizationOptions.specialInstructions && (
                   <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="titleMedium">Special Instructions</Typography>
+                      <Typography variant="subtitle1">Special Instructions</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <TextField
@@ -528,10 +524,10 @@ const ProductPage = ({ toggleTheme }: ProductPageProps) => {
           </Grid>
         ) : (
           <Box sx={{ textAlign: 'center', py: 6 }}>
-            <Typography variant="headlineMedium" gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Product Not Found
             </Typography>
-            <Typography variant="bodyLarge" paragraph>
+            <Typography variant="body1" paragraph>
               The product you're looking for doesn't exist or has been removed.
             </Typography>
             <Button

@@ -36,11 +36,7 @@ import { Order } from '../../types/order';
 import { Appointment } from '../../types/appointment';
 import { formatDistanceToNow } from 'date-fns';
 
-interface HomePageProps {
-  toggleTheme: () => void;
-}
-
-const HomePage = ({ toggleTheme }: HomePageProps) => {
+const HomePage = () => {
   const { userProfile } = useAuth();
   const [activeOrders, setActiveOrders] = useState<Order[]>([]);
   const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
@@ -179,9 +175,9 @@ const HomePage = ({ toggleTheme }: HomePageProps) => {
   };
 
   return (
-    <Layout toggleTheme={toggleTheme}>
+    <Layout>
       <Helmet>
-        <title>Home | Bespoke Tailor</title>
+        <title>Amorn | Bespoke Tailor</title>
       </Helmet>
 
       <Box sx={{ pb: 6 }}>

@@ -46,9 +46,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../config/firebase'; // Update import path
 import { Helmet } from 'react-helmet-async'; // Use react-helmet-async for head management
 
-interface NewMeasurementPageProps {
-  toggleTheme: () => void;
-}
+
 
 // Form validation schema
 const measurementSchema = z.object({
@@ -85,7 +83,7 @@ const GeneralInfoForm = () => {
 
   return (
     <Box>
-      <Typography variant="titleLarge" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         General Information
       </Typography>
 
@@ -234,7 +232,7 @@ const UpperBodyForm = () => {
 
   return (
     <Box>
-      <Typography variant="titleLarge" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Upper Body Measurements
       </Typography>
 
@@ -419,7 +417,7 @@ const LowerBodyForm = () => {
 
   return (
     <Box>
-      <Typography variant="titleLarge" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Lower Body Measurements
       </Typography>
 
@@ -562,7 +560,7 @@ const AdditionalForm = () => {
 
   return (
     <Box>
-      <Typography variant="titleLarge" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Additional Measurements
       </Typography>
 
@@ -611,7 +609,7 @@ const AdditionalForm = () => {
 
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Typography variant="titleMedium">Reference Photos</Typography>
+            <Typography variant="subtitle2">Reference Photos</Typography>
             <Button
               component="label"
               startIcon={<PhotoCameraIcon />}
@@ -629,7 +627,7 @@ const AdditionalForm = () => {
           <Alert severity="info" sx={{ mb: 2 }}>
             Upload photos of yourself or well-fitting garments to help us understand your fit preferences.
           </Alert>
-          <Typography variant="bodySmall" color="text.secondary">
+          <Typography variant="caption" color="text.secondary">
             No photos added yet.
           </Typography>
         </Grid>
@@ -655,7 +653,7 @@ const AdditionalForm = () => {
   );
 };
 
-const NewMeasurementPage = ({ toggleTheme }: NewMeasurementPageProps) => {
+const NewMeasurementPage = () => {
   const { userProfile } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -769,7 +767,7 @@ const NewMeasurementPage = ({ toggleTheme }: NewMeasurementPageProps) => {
       </Helmet>
 
       <Box sx={{ pb: 6 }}>
-        <Typography variant="displaySmall" component="h1" gutterBottom>
+        <Typography variant="h5" component="h1" gutterBottom>
           Add New Measurements
         </Typography>
 

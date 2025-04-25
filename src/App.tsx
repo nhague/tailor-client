@@ -16,6 +16,7 @@ import ProductDetailPage from './features/catalog/ProductDetailPage';
 import MessagesPage from './features/messages/MessagesPage'; // Import the new Messages page
 import OrdersPage from './features/orders/OrdersPage'; // Import the Orders page
 import AppointmentsPage from './features/appointments/AppointmentsPage'; // Import the Appointments page
+import GroupOrdersPage from './pages/Groups/GroupOrdersPage'; // Import the Group Orders page
 
 // Import Layout component
 import Layout from './components/layout/Layout';
@@ -53,6 +54,7 @@ function App() {
             <Route path="/messages" element={<MessagesPage />} /> {/* Add the messages route */}
             <Route path="/orders" element={<OrdersPage />} /> {/* Add the orders route */}
             <Route path="/appointments" element={<AppointmentsPage />} /> {/* Add the appointments route */}
+            <Route path="/groups" element={<GroupOrdersPage />} /> {/* Add the Group Orders route */}
             {/* Add other routes as needed */}
           </Routes>
         </Layout>
