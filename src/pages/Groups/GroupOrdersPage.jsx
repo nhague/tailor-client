@@ -208,651 +208,740 @@ const GroupOrdersPage = () => {
 
   // Fetch group orders
   useEffect(() => {
-    if (!currentUser) {
-      console.log('useEffect: currentUser is not available');
-      return;
+    console.log('useEffect: fetching group orders (mock data)'); // Updated log
+
+    try {
+      // In a real implementation, this would query Firestore
+      // const groupsQuery = query(
+      //   collection(db, 'groupOrders'),
+      //   where('members', 'array-contains', { userId: currentUser.uid }),
+      //   orderBy('eventDate')
+      // );
+
+      // const groupsSnapshot = await getDocs(groupsQuery);
+      // const groupsData = groupsSnapshot.docs.map(doc => ({
+      //   id: doc.id,
+      //   ...doc.data(),
+      //   eventDate: doc.data().eventDate.toDate(),
+      // }));
+
+      // For demo purposes, use sample data
+      const today = new Date();
+      const nextMonth = addDays(today, 30);
+      const twoMonthsLater = addDays(today, 60);
+      const threeMonthsLater = addDays(today, 90);
+
+      const sampleGroups = [
+        {
+          id: 'group1',
+          name: 'Johnson Wedding Party',
+          eventType: 'wedding',
+          eventDate: twoMonthsLater,
+          createdBy: 'mock-user-id', // Use mock user ID
+          members: [
+            {
+              userId: 'mock-user-id', // Use mock user ID
+              role: 'organizer',
+              joinedAt: addDays(today, -10),
+              status: 'active',
+              orderId: 'order123',
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user1',
+              role: 'member',
+              joinedAt: addDays(today, -8),
+              status: 'active',
+              orderId: 'order124',
+              name: 'Mike Johnson',
+              email: 'mike@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user2',
+              role: 'member',
+              joinedAt: addDays(today, -7),
+              status: 'active',
+              orderId: 'order125',
+              name: 'David Williams',
+              email: 'david@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user3',
+              role: 'member',
+              joinedAt: addDays(today, -5),
+              status: 'pending',
+              orderId: null,
+              name: 'James Brown',
+              email: 'james@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['suit', 'shirt'],
+            fabrics: ['wool', 'cotton'],
+            colorPalette: ['#0A2E36', '#575366'],
+            requiredElements: ['Same Color Ties', 'Matching Pocket Squares'],
+          },
+          conversationId: 'conv123',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -10),
+              completed: true,
+              completedDate: addDays(today, -10),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, -5),
+              completed: true,
+              completedDate: addDays(today, -5),
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, 5),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, 15),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, 20),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'First Fitting',
+              dueDate: addDays(today, 40),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Final Alterations',
+              dueDate: addDays(today, 50),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Wedding colors are navy and silver. The ceremony starts at 4 PM.',
+          status: 'planning',
+          polls: [
+            {
+              id: 'poll1',
+              title: 'Suit Color Preference',
+              description: 'Please vote for your preferred suit color for the wedding.',
+              options: [
+                { id: 'opt1', text: 'Navy Blue', votes: ['user1', 'user2'] },
+                { id: 'opt2', text: 'Charcoal Gray', votes: ['mock-user-id'] }, // Use mock user ID
+                { id: 'opt3', text: 'Black', votes: ['user3'] },
+              ],
+              createdBy: 'mock-user-id', // Use mock user ID
+              createdAt: addDays(today, -6),
+              expiresAt: addDays(today, 1),
+              status: 'active',
+            },
+            {
+              id: 'poll2',
+              title: 'Tie Style',
+              description: 'Select your preferred tie style.',
+              options: [
+                { id: 'opt1', text: 'Solid Color', votes: ['mock-user-id', 'user2'] }, // Use mock user ID
+                { id: 'opt2', text: 'Patterned', votes: ['user1'] },
+                { id: 'opt3', text: 'Bow Tie', votes: ['user3'] },
+              ],
+              createdBy: 'mock-user-id', // Use mock user ID
+              createdAt: addDays(today, -4),
+              expiresAt: addDays(today, 3),
+              status: 'active',
+            },
+          ],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -10),
+              details: 'Created the group',
+            },
+            {
+              type: 'member_joined',
+              userId: 'user1',
+              timestamp: addDays(today, -8),
+              details: 'Joined the group',
+            },
+            {
+              type: 'member_joined',
+              userId: 'user2',
+              timestamp: addDays(today, -7),
+              details: 'Joined the group',
+            },
+            {
+              type: 'poll_created',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -6),
+              details: 'Created a poll: Suit Color Preference',
+            },
+            {
+              type: 'poll_voted',
+              userId: 'user1',
+              timestamp: addDays(today, -5),
+              details: 'Voted on poll: Suit Color Preference',
+            },
+            {
+              type: 'poll_created',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -4),
+              details: 'Created a poll: Tie Style',
+            },
+            {
+              type: 'style_updated',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -2),
+              details: 'Updated shared style preferences',
+            },
+          ],
+        },
+        {
+          id: 'group2',
+          name: 'Smith Corp Team',
+          eventType: 'corporate',
+          eventDate: threeMonthsLater,
+          createdBy: 'mock-user-id', // Use mock user ID
+          members: [
+            {
+              userId: 'mock-user-id', // Use mock user ID
+              role: 'organizer',
+              joinedAt: addDays(today, -15),
+              status: 'active',
+              orderId: 'order126',
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user4',
+              role: 'member',
+              joinedAt: addDays(today, -13),
+              status: 'active',
+              orderId: 'order127',
+              name: 'Robert Smith',
+              email: 'robert@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user5',
+              role: 'member',
+              joinedAt: addDays(today, -12),
+              status: 'pending',
+              orderId: null,
+              name: 'Thomas Clark',
+              email: 'thomas@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['suit'],
+            fabrics: ['wool'],
+            colorPalette: ['#27474E', '#664E4C'],
+            requiredElements: ['Same Fabric Suits'],
+          },
+          conversationId: 'conv124',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -15),
+              completed: true,
+              completedDate: addDays(today, -15),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, -10),
+              completed: true,
+              completedDate: addDays(today, -10),
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, 10),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, 25),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, 30),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Corporate suits for the annual company event.',
+          status: 'planning',
+          polls: [],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -15),
+              details: 'Created the group',
+            },
+            {
+              type: 'member_joined',
+              userId: 'user4',
+              timestamp: addDays(today, -13),
+              details: 'Joined the group',
+            },
+            {
+              type: 'style_updated',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -8),
+              details: 'Updated shared style preferences',
+            },
+          ],
+        },
+        {
+          id: 'group3',
+          name: 'Jazz Band Performers',
+          eventType: 'performance',
+          eventDate: nextMonth,
+          createdBy: 'user6',
+          members: [
+            {
+              userId: currentUser.uid,
+              role: 'member',
+              joinedAt: addDays(today, -20),
+              status: 'active',
+              orderId: 'order128',
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user6',
+              role: 'organizer',
+              joinedAt: addDays(today, -25),
+              status: 'active',
+              orderId: 'order129',
+              name: 'Sarah Johnson',
+              email: 'sarah@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user7',
+              role: 'member',
+              joinedAt: addDays(today, -18),
+              status: 'active',
+              orderId: 'order130',
+              name: 'Michael Davis',
+              email: 'michael@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['suit', 'shirt'],
+            fabrics: ['wool', 'cotton'],
+            colorPalette: ['#32292F', '#0A2E36'],
+            requiredElements: ['Same Fabric Suits', 'Matching Lapel Styles'],
+          },
+          conversationId: 'conv125',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -25),
+              completed: true,
+              completedDate: addDays(today, -25),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, -20),
+              completed: true,
+              completedDate: addDays(today, -20),
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, -15),
+              completed: true,
+              completedDate: addDays(today, -10),
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, -5),
+              completed: true,
+              completedDate: addDays(today, -7),
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, -1),
+              completed: true,
+              completedDate: addDays(today, -3),
+            },
+            {
+              milestone: 'Production',
+              dueDate: addDays(today, 15),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Delivery',
+              dueDate: addDays(today, 25),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Performance suits for the jazz band concert.',
+          status: 'production',
+          polls: [],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'user6',
+              timestamp: addDays(today, -25),
+              details: 'Created the group',
+            },
+            {
+              type: 'member_joined',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -20),
+              details: 'Joined the group',
+            },
+            {
+              type: 'member_joined',
+              userId: 'user7',
+              timestamp: addDays(today, -18),
+              details: 'Joined the group',
+            },
+            {
+              type: 'style_updated',
+              userId: 'user6',
+              timestamp: addDays(today, -15),
+              details: 'Updated shared style preferences',
+            },
+            {
+              type: 'order_placed',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -3),
+              details: 'Placed order',
+            },
+            {
+              type: 'order_placed',
+              userId: 'user6',
+              timestamp: addDays(today, -3),
+              details: 'Placed order',
+            },
+            {
+              type: 'order_placed',
+              userId: 'user7',
+              timestamp: addDays(today, -3),
+              details: 'Placed order',
+            },
+          ],
+        },
+        {
+          id: 'group4',
+          name: 'Summer Gala Committee',
+          eventType: 'corporate',
+          eventDate: addDays(today, 180), // 6 months from now
+          createdBy: 'mock-user-id', // Use mock user ID
+          members: [
+            {
+              userId: 'mock-user-id', // Use mock user ID
+              role: 'organizer',
+              joinedAt: addDays(today, -5),
+              status: 'active',
+              orderId: null,
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user8',
+              role: 'member',
+              joinedAt: addDays(today, -3),
+              status: 'pending',
+              orderId: null,
+              name: 'Emily White',
+              email: 'emily@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['dress', 'suit'],
+            fabrics: ['silk', 'wool'],
+            colorPalette: ['#A47963', '#4B296B'],
+            requiredElements: ['Coordinated Shirt Colors'],
+          },
+          conversationId: 'conv126',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -5),
+              completed: true,
+              completedDate: addDays(today, -5),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, 10),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, 30),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, 60),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, 90),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Production',
+              dueDate: addDays(today, 120),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Delivery',
+              dueDate: addDays(today, 150),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Formal attire for the annual summer gala event.',
+          status: 'planning',
+          polls: [],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -5),
+              details: 'Created the group',
+            },
+          ],
+        },
+        {
+          id: 'group5',
+          name: 'Fall Wedding Party',
+          eventType: 'wedding',
+          eventDate: addDays(today, 270), // 9 months from now
+          createdBy: 'user9',
+          members: [
+            {
+              userId: currentUser.uid,
+              role: 'member',
+              joinedAt: addDays(today, -1),
+              status: 'pending',
+              orderId: null,
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user9',
+              role: 'organizer',
+              joinedAt: addDays(today, -7),
+              status: 'active',
+              orderId: null,
+              name: 'Michael Brown',
+              email: 'michaelb@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['suit'],
+            fabrics: ['wool'],
+            colorPalette: ['#7A6C5D', '#664E4C'],
+            requiredElements: ['Same Fabric Suits'],
+          },
+          conversationId: 'conv127',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -7),
+              completed: true,
+              completedDate: addDays(today, -7),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, 14),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, 45),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, 90),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, 120),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'First Fitting',
+              dueDate: addDays(today, 180),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Final Alterations',
+              dueDate: addDays(today, 210),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Event Date',
+              dueDate: addDays(today, 270),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Autumn wedding with a rustic theme. Earth tone colors preferred.',
+          status: 'planning',
+          polls: [],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'user9',
+              timestamp: addDays(today, -7),
+              details: 'Created the group',
+            },
+          ],
+        },
+        {
+          id: 'group6',
+          name: 'Future Tech Conference',
+          eventType: 'corporate',
+          eventDate: addDays(today, 365), // One year from now
+          createdBy: 'mock-user-id', // Use mock user ID
+          members: [
+            {
+              userId: 'mock-user-id', // Use mock user ID
+              role: 'organizer',
+              joinedAt: addDays(today, -2),
+              status: 'active',
+              orderId: null,
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+            {
+              userId: 'user10',
+              role: 'member',
+              joinedAt: addDays(today, -1),
+              status: 'pending',
+              orderId: null,
+              name: 'Alex Chen',
+              email: 'alex.chen@example.com',
+              profileImage: '/api/placeholder/40/40',
+            },
+          ],
+          sharedStyles: {
+            products: ['suit', 'shirt'],
+            fabrics: ['stretch wool'],
+            colorPalette: ['#0A2E36'],
+            requiredElements: ['Same Fabric Suits'],
+          },
+          conversationId: 'conv128',
+          timeline: [
+            {
+              milestone: 'Group Creation',
+              dueDate: addDays(today, -2),
+              completed: true,
+              completedDate: addDays(today, -2),
+            },
+            {
+              milestone: 'Member Invitations',
+              dueDate: addDays(today, 14),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Style Coordination',
+              dueDate: addDays(today, 60),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Measurements Submission',
+              dueDate: addDays(today, 120),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Order Placement',
+              dueDate: addDays(today, 180),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Production',
+              dueDate: addDays(today, 240),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Delivery',
+              dueDate: addDays(today, 300),
+              completed: false,
+              completedDate: null,
+            },
+            {
+              milestone: 'Event Date',
+              dueDate: addDays(today, 365),
+              completed: false,
+              completedDate: null,
+            },
+          ],
+          notes: 'Attire for the annual tech conference.',
+          status: 'planning',
+          polls: [],
+          activityFeed: [
+            {
+              type: 'member_joined',
+              userId: 'mock-user-id', // Use mock user ID
+              timestamp: addDays(today, -2),
+              details: 'Created the group',
+            },
+          ],
+        },
+      ];
+
+      console.log('fetchGroupOrders: sampleGroups', sampleGroups);
+      setGroupOrders(sampleGroups);
+      console.log('fetchGroupOrders: groupOrders state set');
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching group orders:', error);
+      setLoading(false);
     }
-    console.log('useEffect: currentUser is available', currentUser);
-
-    const fetchGroupOrders = async () => {
-      try {
-        // In a real implementation, this would query Firestore
-        // const groupsQuery = query(
-        //   collection(db, 'groupOrders'),
-        //   where('members', 'array-contains', { userId: currentUser.uid }),
-        //   orderBy('eventDate')
-        // );
-
-        // const groupsSnapshot = await getDocs(groupsQuery);
-        // const groupsData = groupsSnapshot.docs.map(doc => ({
-        //   id: doc.id,
-        //   ...doc.data(),
-        //   eventDate: doc.data().eventDate.toDate(),
-        // }));
-
-        // For demo purposes, use sample data
-        const today = new Date();
-        const nextMonth = addDays(today, 30);
-        const twoMonthsLater = addDays(today, 60);
-        const threeMonthsLater = addDays(today, 90);
-
-        const sampleGroups = [
-          {
-            id: 'group1',
-            name: 'Johnson Wedding Party',
-            eventType: 'wedding',
-            eventDate: twoMonthsLater,
-            createdBy: currentUser.uid,
-            members: [
-              {
-                userId: currentUser.uid,
-                role: 'organizer',
-                joinedAt: addDays(today, -10),
-                status: 'active',
-                orderId: 'order123',
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user1',
-                role: 'member',
-                joinedAt: addDays(today, -8),
-                status: 'active',
-                orderId: 'order124',
-                name: 'Mike Johnson',
-                email: 'mike@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user2',
-                role: 'member',
-                joinedAt: addDays(today, -7),
-                status: 'active',
-                orderId: 'order125',
-                name: 'David Williams',
-                email: 'david@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user3',
-                role: 'member',
-                joinedAt: addDays(today, -5),
-                status: 'pending',
-                orderId: null,
-                name: 'James Brown',
-                email: 'james@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-            ],
-            sharedStyles: {
-              products: ['suit', 'shirt'],
-              fabrics: ['wool', 'cotton'],
-              colorPalette: ['#0A2E36', '#575366'],
-              requiredElements: ['Same Color Ties', 'Matching Pocket Squares'],
-            },
-            conversationId: 'conv123',
-            timeline: [
-              {
-                milestone: 'Group Creation',
-                dueDate: addDays(today, -10),
-                completed: true,
-                completedDate: addDays(today, -10),
-              },
-              {
-                milestone: 'Member Invitations',
-                dueDate: addDays(today, -5),
-                completed: true,
-                completedDate: addDays(today, -5),
-              },
-              {
-                milestone: 'Style Coordination',
-                dueDate: addDays(today, 5),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Measurements Submission',
-                dueDate: addDays(today, 15),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Order Placement',
-                dueDate: addDays(today, 20),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'First Fitting',
-                dueDate: addDays(today, 40),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Final Alterations',
-                dueDate: addDays(today, 50),
-                completed: false,
-                completedDate: null,
-              },
-            ],
-            notes: 'Wedding colors are navy and silver. The ceremony starts at 4 PM.',
-            status: 'planning',
-            polls: [
-              {
-                id: 'poll1',
-                title: 'Suit Color Preference',
-                description: 'Please vote for your preferred suit color for the wedding.',
-                options: [
-                  { id: 'opt1', text: 'Navy Blue', votes: ['user1', 'user2'] },
-                  { id: 'opt2', text: 'Charcoal Gray', votes: [currentUser.uid] },
-                  { id: 'opt3', text: 'Black', votes: ['user3'] },
-                ],
-                createdBy: currentUser.uid,
-                createdAt: addDays(today, -6),
-                expiresAt: addDays(today, 1),
-                status: 'active',
-              },
-              {
-                id: 'poll2',
-                title: 'Tie Style',
-                description: 'Select your preferred tie style.',
-                options: [
-                  { id: 'opt1', text: 'Solid Color', votes: [currentUser.uid, 'user2'] },
-                  { id: 'opt2', text: 'Patterned', votes: ['user1'] },
-                  { id: 'opt3', text: 'Bow Tie', votes: ['user3'] },
-                ],
-                createdBy: currentUser.uid,
-                createdAt: addDays(today, -4),
-                expiresAt: addDays(today, 3),
-                status: 'active',
-              },
-            ],
-            activityFeed: [
-              {
-                type: 'member_joined',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -10),
-                details: 'Created the group',
-              },
-              {
-                type: 'member_joined',
-                userId: 'user1',
-                timestamp: addDays(today, -8),
-                details: 'Joined the group',
-              },
-              {
-                type: 'member_joined',
-                userId: 'user2',
-                timestamp: addDays(today, -7),
-                details: 'Joined the group',
-              },
-              {
-                type: 'poll_created',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -6),
-                details: 'Created a poll: Suit Color Preference',
-              },
-              {
-                type: 'poll_voted',
-                userId: 'user1',
-                timestamp: addDays(today, -5),
-                details: 'Voted on poll: Suit Color Preference',
-              },
-              {
-                type: 'poll_created',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -4),
-                details: 'Created a poll: Tie Style',
-              },
-              {
-                type: 'style_updated',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -2),
-                details: 'Updated shared style preferences',
-              },
-            ],
-          },
-          {
-            id: 'group2',
-            name: 'Smith Corp Team',
-            eventType: 'corporate',
-            eventDate: threeMonthsLater,
-            createdBy: currentUser.uid,
-            members: [
-              {
-                userId: currentUser.uid,
-                role: 'organizer',
-                joinedAt: addDays(today, -15),
-                status: 'active',
-                orderId: 'order126',
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user4',
-                role: 'member',
-                joinedAt: addDays(today, -13),
-                status: 'active',
-                orderId: 'order127',
-                name: 'Robert Smith',
-                email: 'robert@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user5',
-                role: 'member',
-                joinedAt: addDays(today, -12),
-                status: 'pending',
-                orderId: null,
-                name: 'Thomas Clark',
-                email: 'thomas@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-            ],
-            sharedStyles: {
-              products: ['suit'],
-              fabrics: ['wool'],
-              colorPalette: ['#27474E', '#664E4C'],
-              requiredElements: ['Same Fabric Suits'],
-            },
-            conversationId: 'conv124',
-            timeline: [
-              {
-                milestone: 'Group Creation',
-                dueDate: addDays(today, -15),
-                completed: true,
-                completedDate: addDays(today, -15),
-              },
-              {
-                milestone: 'Member Invitations',
-                dueDate: addDays(today, -10),
-                completed: true,
-                completedDate: addDays(today, -10),
-              },
-              {
-                milestone: 'Style Coordination',
-                dueDate: addDays(today, 10),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Measurements Submission',
-                dueDate: addDays(today, 25),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Order Placement',
-                dueDate: addDays(today, 30),
-                completed: false,
-                completedDate: null,
-              },
-            ],
-            notes: 'Corporate suits for the annual company event.',
-            status: 'planning',
-            polls: [],
-            activityFeed: [
-              {
-                type: 'member_joined',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -15),
-                details: 'Created the group',
-              },
-              {
-                type: 'member_joined',
-                userId: 'user4',
-                timestamp: addDays(today, -13),
-                details: 'Joined the group',
-              },
-              {
-                type: 'style_updated',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -8),
-                details: 'Updated shared style preferences',
-              },
-            ],
-          },
-          {
-            id: 'group3',
-            name: 'Jazz Band Performers',
-            eventType: 'performance',
-            eventDate: nextMonth,
-            createdBy: 'user6',
-            members: [
-              {
-                userId: currentUser.uid,
-                role: 'member',
-                joinedAt: addDays(today, -20),
-                status: 'active',
-                orderId: 'order128',
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user6',
-                role: 'organizer',
-                joinedAt: addDays(today, -25),
-                status: 'active',
-                orderId: 'order129',
-                name: 'Sarah Johnson',
-                email: 'sarah@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user7',
-                role: 'member',
-                joinedAt: addDays(today, -18),
-                status: 'active',
-                orderId: 'order130',
-                name: 'Michael Davis',
-                email: 'michael@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-            ],
-            sharedStyles: {
-              products: ['suit', 'shirt'],
-              fabrics: ['wool', 'cotton'],
-              colorPalette: ['#32292F', '#0A2E36'],
-              requiredElements: ['Same Fabric Suits', 'Matching Lapel Styles'],
-            },
-            conversationId: 'conv125',
-            timeline: [
-              {
-                milestone: 'Group Creation',
-                dueDate: addDays(today, -25),
-                completed: true,
-                completedDate: addDays(today, -25),
-              },
-              {
-                milestone: 'Member Invitations',
-                dueDate: addDays(today, -20),
-                completed: true,
-                completedDate: addDays(today, -20),
-              },
-              {
-                milestone: 'Style Coordination',
-                dueDate: addDays(today, -15),
-                completed: true,
-                completedDate: addDays(today, -10),
-              },
-              {
-                milestone: 'Measurements Submission',
-                dueDate: addDays(today, -5),
-                completed: true,
-                completedDate: addDays(today, -7),
-              },
-              {
-                milestone: 'Order Placement',
-                dueDate: addDays(today, -1),
-                completed: true,
-                completedDate: addDays(today, -3),
-              },
-              {
-                milestone: 'Production',
-                dueDate: addDays(today, 15),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Delivery',
-                dueDate: addDays(today, 25),
-                completed: false,
-                completedDate: null,
-              },
-            ],
-            notes: 'Performance suits for the jazz band concert.',
-            status: 'production',
-            polls: [],
-            activityFeed: [
-              {
-                type: 'member_joined',
-                userId: 'user6',
-                timestamp: addDays(today, -25),
-                details: 'Created the group',
-              },
-              {
-                type: 'member_joined',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -20),
-                details: 'Joined the group',
-              },
-              {
-                type: 'member_joined',
-                userId: 'user7',
-                timestamp: addDays(today, -18),
-                details: 'Joined the group',
-              },
-              {
-                type: 'style_updated',
-                userId: 'user6',
-                timestamp: addDays(today, -15),
-                details: 'Updated shared style preferences',
-              },
-              {
-                type: 'order_placed',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -3),
-                details: 'Placed order',
-              },
-              {
-                type: 'order_placed',
-                userId: 'user6',
-                timestamp: addDays(today, -3),
-                details: 'Placed order',
-              },
-              {
-                type: 'order_placed',
-                userId: 'user7',
-                timestamp: addDays(today, -3),
-                details: 'Placed order',
-              },
-            ],
-          },
-          {
-            id: 'group4',
-            name: 'Summer Gala Committee',
-            eventType: 'corporate',
-            eventDate: addDays(today, 180), // 6 months from now
-            createdBy: currentUser.uid,
-            members: [
-              {
-                userId: currentUser.uid,
-                role: 'organizer',
-                joinedAt: addDays(today, -5),
-                status: 'active',
-                orderId: null,
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user8',
-                role: 'member',
-                joinedAt: addDays(today, -3),
-                status: 'pending',
-                orderId: null,
-                name: 'Emily White',
-                email: 'emily@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-            ],
-            sharedStyles: {
-              products: ['dress', 'suit'],
-              fabrics: ['silk', 'wool'],
-              colorPalette: ['#A47963', '#4B296B'],
-              requiredElements: ['Coordinated Shirt Colors'],
-            },
-            conversationId: 'conv126',
-            timeline: [
-              {
-                milestone: 'Group Creation',
-                dueDate: addDays(today, -5),
-                completed: true,
-                completedDate: addDays(today, -5),
-              },
-              {
-                milestone: 'Member Invitations',
-                dueDate: addDays(today, 10),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Style Coordination',
-                dueDate: addDays(today, 30),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Measurements Submission',
-                dueDate: addDays(today, 60),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Order Placement',
-                dueDate: addDays(today, 90),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Production',
-                dueDate: addDays(today, 120),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Delivery',
-                dueDate: addDays(today, 150),
-                completed: false,
-                completedDate: null,
-              },
-            ],
-            notes: 'Formal attire for the annual summer gala event.',
-            status: 'planning',
-            polls: [],
-            activityFeed: [
-              {
-                type: 'member_joined',
-                userId: currentUser.uid,
-                timestamp: addDays(today, -5),
-                details: 'Created the group',
-              },
-            ],
-          },
-          {
-            id: 'group5',
-            name: 'Fall Wedding Party',
-            eventType: 'wedding',
-            eventDate: addDays(today, 270), // 9 months from now
-            createdBy: 'user9',
-            members: [
-              {
-                userId: currentUser.uid,
-                role: 'member',
-                joinedAt: addDays(today, -1),
-                status: 'pending',
-                orderId: null,
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-              {
-                userId: 'user9',
-                role: 'organizer',
-                joinedAt: addDays(today, -7),
-                status: 'active',
-                orderId: null,
-                name: 'Michael Brown',
-                email: 'michaelb@example.com',
-                profileImage: '/api/placeholder/40/40',
-              },
-            ],
-            sharedStyles: {
-              products: ['suit'],
-              fabrics: ['wool'],
-              colorPalette: ['#7A6C5D', '#664E4C'],
-              requiredElements: ['Same Fabric Suits'],
-            },
-            conversationId: 'conv127',
-            timeline: [
-              {
-                milestone: 'Group Creation',
-                dueDate: addDays(today, -7),
-                completed: true,
-                completedDate: addDays(today, -7),
-              },
-              {
-                milestone: 'Member Invitations',
-                dueDate: addDays(today, 14),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Style Coordination',
-                dueDate: addDays(today, 45),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Measurements Submission',
-                dueDate: addDays(today, 90),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Order Placement',
-                dueDate: addDays(today, 120),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'First Fitting',
-                dueDate: addDays(today, 180),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Final Alterations',
-                dueDate: addDays(today, 210),
-                completed: false,
-                completedDate: null,
-              },
-              {
-                milestone: 'Event Date',
-                dueDate: addDays(today, 270),
-                completed: false,
-                completedDate: null,
-              },
-            ],
-            notes: 'Autumn wedding with a rustic theme. Earth tone colors preferred.',
-            status: 'planning',
-            polls: [],
-            activityFeed: [
-              {
-                type: 'member_joined',
-                userId: 'user9',
-                timestamp: addDays(today, -7),
-                details: 'Created the group',
-              },
-            ],
-          },
-        ];
-
-        console.log('fetchGroupOrders: sampleGroups', sampleGroups);
-        setGroupOrders(sampleGroups);
-        console.log('fetchGroupOrders: groupOrders state set');
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching group orders:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchGroupOrders();
-  }, [currentUser]);
+  }, []); // Removed currentUser from dependency array
 
   // Handle URL params for group details
   useEffect(() => {
@@ -884,13 +973,7 @@ const GroupOrdersPage = () => {
     if (incompleteMilestones.length === 0) return null;
 
     return incompleteMilestones[0];
-  };
-
-  // Filter groups based on tab and search
-  const filteredGroups = useMemo(() => {
-    console.log('useMemo: groupOrders', groupOrders);
-    console.log('useMemo: tabValue', tabValue);
-    console.log('useMemo: searchQuery', searchQuery);
+  }
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -899,6 +982,33 @@ const GroupOrdersPage = () => {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
+
+  // Filter groups based on tab and search
+  const filteredGroups = useMemo(() => {
+    console.log('useMemo: groupOrders', groupOrders);
+    console.log('useMemo: tabValue', tabValue);
+    console.log('useMemo: searchQuery', searchQuery);
+
+    let filtered = groupOrders;
+
+    // Filter by tab value (status)
+    if (tabValue === 1) { // Active
+      filtered = filtered.filter(group => group.status === 'planning' || group.status === 'production');
+    } else if (tabValue === 2) { // Completed
+      filtered = filtered.filter(group => group.status === 'completed');
+    } else if (tabValue === 3) { // Canceled
+      filtered = filtered.filter(group => group.status === 'canceled');
+    }
+
+    // Filter by search query (group name)
+    if (searchQuery) {
+      filtered = filtered.filter(group =>
+        group.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [groupOrders, tabValue, searchQuery]);
 
   const handleViewDetails = (group) => {
     setSelectedGroup(group);
@@ -979,17 +1089,17 @@ const GroupOrdersPage = () => {
       name: newGroup.name,
       eventType: newGroup.eventType,
       eventDate: new Date(newGroup.eventDate),
-      createdBy: currentUser.uid,
+      createdBy: 'mock-user-id', // Use mock user ID
       members: [
         {
-          userId: currentUser.uid,
+          userId: 'mock-user-id', // Use mock user ID
           role: 'organizer',
           joinedAt: new Date(),
           status: 'active',
           orderId: null,
-          name: userProfile.firstName + ' ' + userProfile.lastName,
-          email: currentUser.email,
-          profileImage: userProfile.profileImageUrl || '/api/placeholder/40/40',
+          name: 'Mock User', // Use placeholder name
+          email: 'mockuser@example.com', // Use placeholder email
+          profileImage: '/api/placeholder/40/40', // Use placeholder image
         },
       ],
       sharedStyles: {
@@ -1037,7 +1147,7 @@ const GroupOrdersPage = () => {
       activityFeed: [
         {
           type: 'member_joined',
-          userId: currentUser.uid,
+          userId: 'mock-user-id', // Use mock user ID
           timestamp: new Date(),
           details: 'Created the group',
         },
@@ -1114,7 +1224,7 @@ const GroupOrdersPage = () => {
     const updatedActivityFeed = [
       {
         type: 'style_updated',
-        userId: currentUser.uid,
+        userId: 'mock-user-id', // Use mock user ID
         timestamp: new Date(),
         details: 'Updated shared style preferences',
       },
@@ -1180,7 +1290,7 @@ const GroupOrdersPage = () => {
     const updatedActivityFeed = [
       {
         type: 'poll_voted',
-        userId: currentUser.uid,
+        userId: 'mock-user-id', // Use mock user ID
         timestamp: new Date(),
         details: `Voted on poll: ${activePoll.title}`,
       },
@@ -1294,7 +1404,7 @@ const GroupOrdersPage = () => {
         { id: 'opt1', text: 'Option 1', votes: [] },
         { id: 'opt2', text: 'Option 2', votes: [] },
       ],
-      createdBy: currentUser.uid,
+      createdBy: 'mock-user-id', // Use mock user ID
       createdAt: new Date(),
       expiresAt: addDays(new Date(), 7),
       status: 'active',
@@ -1307,7 +1417,7 @@ const GroupOrdersPage = () => {
     const updatedActivityFeed = [
       {
         type: 'poll_created',
-        userId: currentUser.uid,
+        userId: 'mock-user-id', // Use mock user ID
         timestamp: new Date(),
         details: `Created a poll: ${newPoll.title}`,
       },
@@ -1395,6 +1505,9 @@ const GroupOrdersPage = () => {
 
         {/* Group List */}
         <Box>
+          <Box>
+            <Typography variant="caption">Debug: loading={loading ? 'true' : 'false'}, filteredGroups.length={filteredGroups.length}</Typography>
+          </Box>
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
               <CircularProgress />
@@ -1615,7 +1728,6 @@ const GroupOrdersPage = () => {
                           <Typography variant="subtitle1" gutterBottom>
                             Group Summary
                           </Typography>
-
                           <List dense disablePadding>
                             <ListItem disableGutters>
                               <ListItemIcon sx={{ minWidth: 36 }}>
@@ -1626,7 +1738,6 @@ const GroupOrdersPage = () => {
                                 secondary={`${selectedGroup.members.filter(m => m.status === 'active').length} Active, ${selectedGroup.members.filter(m => m.status === 'pending').length} Pending`}
                               />
                             </ListItem>
-
                             <ListItem disableGutters>
                               <ListItemIcon sx={{ minWidth: 36 }}>
                                 <EventIcon fontSize="small" color="action" />
@@ -1636,7 +1747,6 @@ const GroupOrdersPage = () => {
                                 secondary={`by ${selectedGroup.members.find(m => m.role === 'organizer')?.name}`}
                               />
                             </ListItem>
-
                             <ListItem disableGutters>
                               <ListItemIcon sx={{ minWidth: 36 }}>
                                 <TimeIcon fontSize="small" color="action" />
@@ -1647,19 +1757,15 @@ const GroupOrdersPage = () => {
                               />
                             </ListItem>
                           </List>
-
                           <Divider sx={{ my: 2 }} />
-
                           <Typography variant="subtitle2" gutterBottom>
                             Progress: {calculateProgress(selectedGroup)}%
                           </Typography>
-
                           <LinearProgress
                             variant="determinate"
                             value={calculateProgress(selectedGroup)}
                             sx={{ height: 8, borderRadius: 4, mb: 2 }}
                           />
-
                           {getNextMilestone(selectedGroup) && (
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <TimeIcon fontSize="small" color="action" sx={{ mr: 1 }} />
@@ -1668,9 +1774,7 @@ const GroupOrdersPage = () => {
                               </Typography>
                             </Box>
                           )}
-
                           <Divider sx={{ my: 2 }} />
-
                           {selectedGroup.notes && (
                             <>
                               <Typography variant="subtitle2" gutterBottom>
@@ -1692,9 +1796,9 @@ const GroupOrdersPage = () => {
                           <Typography variant="subtitle1" gutterBottom>
                             Activity Feed
                           </Typography>
-
                           <List>
                             {selectedGroup.activityFeed.map((activity, index) => {
+                              // Find member using activity.userId
                               const member = selectedGroup.members.find(m => m.userId === activity.userId);
 
                               return (
@@ -1773,280 +1877,6 @@ const GroupOrdersPage = () => {
                             sx={{
                               justifyContent: 'flex-start',
                               p: 1.5,
-                            }}
-                          >
-                            Create Poll
-                          </Button>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            startIcon={<MessageIcon />}
-                            onClick={() => navigate(`/messages?groupId=${selectedGroup.id}`)}
-                            sx={{
-                              justifyContent: 'flex-start',
-                              p: 1.5,
-                            }}
-                          >
-                            Group Chat
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Box>
-              )}
-
-              {activeView === 'members' && (
-                <Box sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                    <Typography variant="h6">
-                      Members ({selectedGroup.members.length})
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      startIcon={<PersonAddIcon />}
-                      onClick={handleInviteMemberOpen}
-                    >
-                      Invite Members
-                    </Button>
-                  </Box>
-
-                  <Typography variant="subtitle2" gutterBottom>
-                    Organizer
-                  </Typography>
-
-                  <List>
-                    {selectedGroup.members.filter(m => m.role === 'organizer').map((member) => (
-                      <ListItem key={member.userId}>
-                        <ListItemAvatar>
-                          <Avatar alt={member.name} src={member.profileImage} />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={member.name}
-                          secondary={member.email}
-                        />
-                        <ListItemSecondaryAction>
-                          <Chip
-                            label="Organizer"
-                            color="primary"
-                            size="small"
-                          />
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))}
-                  </List>
-
-                  <Divider sx={{ my: 2 }} />
-
-                  <Typography variant="subtitle2" gutterBottom>
-                    Active Members
-                  </Typography>
-
-                  <List>
-                    {selectedGroup.members.filter(m => m.role === 'member' && m.status === 'active').map((member) => (
-                      <ListItem key={member.userId}>
-                        <ListItemAvatar>
-                          <Avatar alt={member.name} src={member.profileImage} />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={member.name}
-                          secondary={member.email}
-                        />
-                        <ListItemSecondaryAction>
-                          {member.orderId ? (
-                            <Chip
-                              label="Order Placed"
-                              color="success"
-                              size="small"
-                              icon={<CheckCircleIcon />}
-                            />
-                          ) : (
-                            <Chip
-                              label="No Order"
-                              variant="outlined"
-                              size="small"
-                            />
-                          )}
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))}
-                  </List>
-
-                  {selectedGroup.members.some(m => m.status === 'pending') && (
-                    <>
-                      <Divider sx={{ my: 2 }} />
-
-                      <Typography variant="subtitle2" gutterBottom>
-                        Pending Invitations
-                      </Typography>
-
-                      <List>
-                        {selectedGroup.members.filter(m => m.status === 'pending').map((member) => (
-                          <ListItem key={member.userId}>
-                            <ListItemAvatar>
-                              <Avatar alt={member.name} src={member.profileImage} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={member.name}
-                              secondary={member.email}
-                            />
-                            <ListItemSecondaryAction>
-                              <Chip
-                                label="Pending"
-                                color="warning"
-                                size="small"
-                                icon={<PendingIcon />}
-                              />
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </>
-                  )}
-                </Box>
-              )}
-
-              {activeView === 'timeline' && (
-                <Box sx={{ p: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Project Timeline
-                  </Typography>
-
-                  <Box sx={{ mb: 4 }}>
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
-                      Overall Progress
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ width: '100%', mr: 1 }}>
-                        <LinearProgress
-                          variant="determinate"
-                          value={calculateProgress(selectedGroup)}
-                          sx={{ height: 10, borderRadius: 5 }}
-                        />
-                      </Box>
-                      <Box minWidth={40}>
-                        <Typography variant="body2" color="text.secondary">
-                          <ProgressLabel value={calculateProgress(selectedGroup)}>
-                            {calculateProgress(selectedGroup)}%
-                          </ProgressLabel>
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-
-                  <Stepper orientation="vertical">
-                    {selectedGroup.timeline.map((milestone, index) => (
-                      <Step key={index} active={milestone.completed || index === selectedGroup.timeline.findIndex(m => !m.completed)} completed={milestone.completed}>
-                        <StepLabel
-                          optional={
-                            <Typography variant="caption">
-                              Due: {format(new Date(milestone.dueDate), 'MMM d, yyyy')}
-                            </Typography>
-                          }
-                        >
-                          {milestone.milestone}
-                        </StepLabel>
-                        <Box sx={{ ml: 3, mb: 3, mt: 1 }}>
-                          {milestone.completed ? (
-                            <Box sx={{ display: 'flex', alignItems: 'center', color: 'success.main' }}>
-                              <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
-                              <Typography variant="body2">
-                                Completed on {format(new Date(milestone.completedDate), 'MMMM d, yyyy')}
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              {isBefore(new Date(milestone.dueDate), new Date())
-                                ? 'Overdue'
-                                : `${Math.round((new Date(milestone.dueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days remaining`}
-                            </Typography>
-                          )}
-                        </Box>
-                      </Step>
-                    ))}
-                  </Stepper>
-
-                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                    <Typography variant="caption" color="text.secondary" align="center">
-                      Event Date: {format(new Date(selectedGroup.eventDate), 'MMMM d, yyyy')} ({formatDistance(new Date(selectedGroup.eventDate), new Date(), { addSuffix: true })})
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
-
-              {activeView === 'styles' && (
-                <Box sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                    <Typography variant="h6">
-                      Style Coordination
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      startIcon={<EditIcon />}
-                      onClick={handleStyleCoordinationOpen}
-                    >
-                      Edit Style Preferences
-                    </Button>
-                  </Box>
-
-                  {selectedGroup.sharedStyles.colorPalette && selectedGroup.sharedStyles.colorPalette.length > 0 ? (
-                    <Box sx={{ mb: 4 }}>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Color Palette
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                        {selectedGroup.sharedStyles.colorPalette.map((color, index) => (
-                          <Box key={index}>
-                            <Box
-                              sx={{
-                                width: 60,
-                                height: 60,
-                                backgroundColor: color,
-                                borderRadius: 1,
-                                mb: 1,
-                              }}
-                            />
-                            <Typography variant="caption" align="center" display="block">
-                              {colorOptions.find(c => c.value === color)?.name || color}
-                            </Typography>
-                          </Box>
-                        ))}
-                      </Box>
-                    </Box>
-                  ) : (
-                    <Box sx={{ mb: 4 }}>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Color Palette
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        No color palette has been selected yet.
-                      </Typography>
-                    </Box>
-                  )}
-
-                  {selectedGroup.sharedStyles.fabrics && selectedGroup.sharedStyles.fabrics.length > 0 ? (
-                    <Box sx={{ mb: 4 }}>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Selected Fabrics
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                        {selectedGroup.sharedStyles.fabrics.map((fabricId, index) => {
-                          const fabric = fabricOptions.find(f => f.id === fabricId);
-                          return fabric ? (
-                            <Box key={index}>
-                              <Box
-                                sx={{
-                                  width: 80,
-                                  height: 80,
-                                  backgroundImage: `url(${fabric.image})`,
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  borderRadius: 1,
-                                  mb: 1,
-                                }}
-                              />
                               <Typography variant="caption" align="center" display="block">
                                 {fabric.name}
                               </Typography>
@@ -2125,9 +1955,10 @@ const GroupOrdersPage = () => {
                             {poll.options.map((option, optIndex) => {
                               const totalVotes = poll.options.reduce((sum, opt) => sum + opt.votes.length, 0);
                               const percentage = totalVotes > 0 ? Math.round((option.votes.length / totalVotes) * 100) : 0;
-                              const userVoted = option.votes.includes(currentUser.uid);
+                              // Check if the mock user voted
+                              const userVoted = option.votes.includes('mock-user-id');
 
-                              return (
+                            return (
                                 <Box key={optIndex} sx={{ mb: 1 }}>
                                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
                                     <Typography variant="body2" sx={{ flexGrow: 1 }}>
@@ -2230,7 +2061,8 @@ const GroupOrdersPage = () => {
                   Group Chat
                 </Button>
 
-                {selectedGroup.members.find(m => m.userId === currentUser.uid)?.orderId ? (
+                {/* Check if the mock user has an order */}
+                {selectedGroup.members.find(m => m.userId === 'mock-user-id')?.orderId ? (
                   <Button
                     variant="contained"
                     onClick={() => navigate(`/orders/${selectedGroup.members.find(m => m.userId === currentUser.uid)?.orderId}`)}

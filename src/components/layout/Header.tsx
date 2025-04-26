@@ -24,13 +24,13 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import logoSrc from '/public/amornslogo.png'; // Import the logo
 
 interface HeaderProps {
-  toggleTheme: () => void;
   toggleMobileSidebar: () => void; // Add the new prop type
 }
 
-const Header = ({ toggleTheme, toggleMobileSidebar }: HeaderProps) => { // Destructure the prop
+const Header = ({ toggleMobileSidebar }: HeaderProps) => { // Destructure the prop
   const { currentUser, userProfile, signOut } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -98,17 +98,12 @@ const Header = ({ toggleTheme, toggleMobileSidebar }: HeaderProps) => { // Destr
               color: 'inherit',
             }}
           >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                fontFamily: 'Beatrice, Arial, sans-serif',
-                fontWeight: 'medium',
-                flexGrow: 1,
-              }}
-            >
-              Amorn Tailors
-            </Typography>
+            <Box
+              component="img"
+              src={logoSrc} // Use the imported logo variable
+              alt="Amorn Tailors Logo"
+              sx={{ maxHeight: '40px', height: 'auto', width: 'auto', display: 'block' }}
+            />
           </Box>
         </Link>
 

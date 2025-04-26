@@ -1,6 +1,6 @@
 // File: src/components/layout/Layout.tsx
 import { ReactNode, useEffect, useState } from 'react';
-import { Box, Drawer, useMediaQuery, useTheme } from '@mui/material'; // Import Drawer
+import { Box, Drawer, useMediaQuery, useTheme, CircularProgress } from '@mui/material'; // Import Drawer and CircularProgress
 import Header from './Header';
 import BottomNavigation from './BottomNavigation';
 import Sidebar from './Sidebar'; // Keep Sidebar for content
@@ -10,10 +10,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 interface LayoutProps {
   children: ReactNode;
-  toggleTheme: () => void;
 }
 
-const Layout = ({ children, toggleTheme }: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUser, userProfile, loading } = useAuth(); // Add userProfile
@@ -65,7 +64,12 @@ const Layout = ({ children, toggleTheme }: LayoutProps) => {
   // Show loading state or authentication screens without the layout
   // Check if loading OR if no user profile exists AND we are on a protected route
   if (loading || (!userProfile && !isAuthRoute && location.pathname !== '/')) { // Use !userProfile
-    return null; // Or a loading spinner
+    // Show a centered loading spinner instead of null
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   // For auth routes, don't show the header, sidebar, or bottom navigation
@@ -77,7 +81,7 @@ const Layout = ({ children, toggleTheme }: LayoutProps) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {isOffline && <OfflineNotification />}
 
-      <Header toggleTheme={toggleTheme} toggleMobileSidebar={toggleMobileSidebar} /> {/* Pass toggle function */}
+      <Header toggleMobileSidebar={toggleMobileSidebar} /> {/* Pass toggle function */}
 
       <Box sx={{ display: 'flex', flex: 1 }}>
         {/* Permanent Sidebar for Desktop */}

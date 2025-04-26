@@ -90,12 +90,12 @@ const CatalogPage = () => {
             name: 'Classic Navy Wool Suit',
             description: 'A timeless navy suit crafted from premium Italian wool. Perfect for business meetings and formal occasions.',
             basePrice: 699,
-            currency: 'USD',
+            currency: 'USD' as const,
             imageUrls: ['/api/placeholder/400/500'],
             available: true,
             featured: true,
             season: ['all-season'],
-            gender: 'male',
+            gender: 'male' as const,
             customizationOptions: {
               lapelStyles: ['notch', 'peak', 'shawl'],
               ventStyles: ['center', 'side', 'none'],
@@ -112,12 +112,12 @@ const CatalogPage = () => {
             name: 'White Oxford Dress Shirt',
             description: 'A crisp white Oxford shirt, essential for every gentleman\'s wardrobe. Made from Egyptian cotton for superior comfort.',
             basePrice: 129,
-            currency: 'USD',
+            currency: 'USD' as const,
             imageUrls: ['/api/placeholder/400/500'],
             available: true,
             featured: true,
             season: ['all-season'],
-            gender: 'male',
+            gender: 'male' as const,
             customizationOptions: {
               collarStyles: ['spread', 'button-down', 'cutaway'],
               cuffStyles: ['barrel', 'French', 'convertible'],
@@ -132,12 +132,12 @@ const CatalogPage = () => {
             name: 'Grey Wool Trousers',
             description: 'Elegant grey wool trousers with a perfect drape. Versatile enough for business or formal occasions.',
             basePrice: 189,
-            currency: 'USD',
+            currency: 'USD' as const,
             imageUrls: ['/api/placeholder/400/500'],
             available: true,
             featured: false,
             season: ['fall', 'winter'],
-            gender: 'male',
+            gender: 'male' as const,
             customizationOptions: {
               waistbandStyles: ['standard', 'extended'],
               pleats: ['flat-front', 'single-pleat', 'double-pleat'],
@@ -153,12 +153,12 @@ const CatalogPage = () => {
             name: 'Navy Blazer',
             description: 'A versatile navy blazer that works for business casual or smart casual occasions.',
             basePrice: 499,
-            currency: 'USD',
+            currency: 'USD' as const,
             imageUrls: ['/api/placeholder/400/500'],
             available: true,
             featured: false,
             season: ['all-season'],
-            gender: 'male',
+            gender: 'male' as const,
             customizationOptions: {
               lapelStyles: ['notch', 'peak'],
               ventStyles: ['center', 'side', 'none'],
@@ -175,12 +175,12 @@ const CatalogPage = () => {
             name: 'Silk Evening Dress',
             description: 'Elegant silk evening dress perfect for formal occasions and gala events.',
             basePrice: 399,
-            currency: 'USD',
+            currency: 'USD' as const,
             imageUrls: ['/api/placeholder/400/500'],
             available: true,
             featured: true,
             season: ['spring', 'summer'],
-            gender: 'female',
+            gender: 'female' as const,
             customizationOptions: {
               necklineStyles: ['v-neck', 'scoop', 'boat'],
               sleeveStyles: ['sleeveless', 'short', 'three-quarter', 'long'],
@@ -336,7 +336,7 @@ const CatalogPage = () => {
   ];
 
   return (
-    <Layout toggleTheme={toggleTheme}>
+    <>
       <Helmet>
         <title>Catalog | Bespoke Tailor</title>
       </Helmet>
@@ -794,7 +794,7 @@ const CatalogPage = () => {
           </Box>
         </Box>
       </Drawer>
-    </Layout>
+    </>
   );
 };
 

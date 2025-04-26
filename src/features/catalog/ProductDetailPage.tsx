@@ -116,7 +116,7 @@ const ProductPage = () => {
         name: 'Classic Navy Wool Suit',
         description: 'A timeless navy suit crafted from premium Italian wool. Perfect for business meetings and formal occasions. Features a two-button closure, notch lapels, and a tailored fit that flatters most body types. The wool fabric is breathable and comfortable year-round.',
         basePrice: 699,
-        currency: 'USD',
+        currency: 'USD' as const, // Ensure type matches 'USD' | 'THB'
         imageUrls: [
           '/api/placeholder/600/800',
           '/api/placeholder/600/800',
@@ -126,7 +126,7 @@ const ProductPage = () => {
         available: true,
         featured: true,
         season: ['all-season'],
-        gender: 'male',
+        gender: 'male' as const, // Ensure type matches 'male' | 'female' | 'unisex'
         customizationOptions: {
           lapelStyles: ['notch', 'peak', 'shawl'],
           ventStyles: ['center', 'side', 'none'],
@@ -143,7 +143,7 @@ const ProductPage = () => {
         name: 'White Oxford Dress Shirt',
         description: 'A crisp white Oxford shirt, essential for every gentleman\'s wardrobe. Made from Egyptian cotton for superior comfort. Features a spread collar and barrel cuffs. The fabric has a slight texture that adds visual interest while maintaining a formal appearance. Perfect for business or formal occasions.',
         basePrice: 129,
-        currency: 'USD',
+        currency: 'USD' as const, // Ensure type matches 'USD' | 'THB'
         imageUrls: [
           '/api/placeholder/600/800',
           '/api/placeholder/600/800',
@@ -152,7 +152,7 @@ const ProductPage = () => {
         available: true,
         featured: true,
         season: ['all-season'],
-        gender: 'male',
+        gender: 'male' as const, // Ensure type matches 'male' | 'female' | 'unisex'
         customizationOptions: {
           collarStyles: ['spread', 'button-down', 'cutaway'],
           cuffStyles: ['barrel', 'French', 'convertible'],
@@ -215,7 +215,7 @@ const ProductPage = () => {
   ];
 
   return (
-    <Layout toggleTheme={toggleTheme}>
+    <>
       <Helmet>
         <title>{loading ? 'Product Details' : `${product?.name} | Bespoke Tailor`}</title>
       </Helmet>
@@ -586,7 +586,7 @@ const ProductPage = () => {
           </DialogContent>
         </Dialog>
       </Box>
-    </Layout>
+    </>
   );
 };
 

@@ -761,7 +761,7 @@ const NewMeasurementPage = () => {
   };
 
   return (
-    <Layout toggleTheme={toggleTheme}>
+    <>
       <Helmet>
         <title>Add New Measurements | Bespoke Tailor</title>
       </Helmet>
@@ -771,7 +771,7 @@ const NewMeasurementPage = () => {
           Add New Measurements
         </Typography>
 
-        <Typography variant="bodyLarge" color="text.secondary" sx={{ mb: 4 }}>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
           Please provide your measurements below. For the best fit, we recommend having a professional tailor take your measurements.
         </Typography>
 
@@ -815,7 +815,7 @@ const NewMeasurementPage = () => {
           </Box>
         </Card>
       </Box>
-    </Layout>
+    </>
   );
 };
 
